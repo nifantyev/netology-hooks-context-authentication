@@ -9,6 +9,7 @@ const AuthProvider = (props) => {
 
   const handleLogin = async (login, password) => {
     try {
+      setError(null);
       const authResponse = await fetch('http://localhost:7070/auth', {
         method: 'POST',
         headers: {
@@ -28,7 +29,6 @@ const AuthProvider = (props) => {
       }
       const { token } = await authResponse.json();
       setToken(token);
-      setError(null);
 
       const profileResponse = await fetch('http://localhost:7070/private/me', {
         headers: {
@@ -36,11 +36,13 @@ const AuthProvider = (props) => {
         },
       });
       if (!profileResponse.ok) {
-        throw new Error('Profile fetching failed');
+        throw new Error(
+          `${profileResponse.status} ${profileResponse.statusText}`
+        );
       }
+
       const profile = await profileResponse.json();
       setProfile(profile);
-      setError(null);
     } catch (e) {
       setError(e.message);
     }
@@ -49,6 +51,7 @@ const AuthProvider = (props) => {
   const handleLogout = () => {
     setToken(null);
     setProfile(null);
+    setError(null);
   };
 
   return (
