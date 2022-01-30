@@ -4,7 +4,7 @@ import AuthContext from '../contexts/AuthContext';
 const Landing = () => (
   <div className="container landing">
     <div className="row">
-      <div className="row">
+      <div className="col">
         <h1>Neto Social</h1>
         <p>Facebook and VK killer.</p>
       </div>
